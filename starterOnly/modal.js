@@ -21,7 +21,6 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // close modal event
 modalClose.forEach((span) => span.addEventListener("click", closeModal));
 
-
 // Function to show modal window
 function launchModal() {
   modalbg.style.display = "block";
@@ -30,7 +29,6 @@ function launchModal() {
 // close modal form
 function closeModal() {
   modalbg.style.display = "none";
-
 }
 
 // declaration of variables to validate each entry
@@ -51,16 +49,16 @@ const inputFormListening = () => {
   form.addEventListener("input", (event) => {
     const target = event.target;
     console.log(target);
-    target.matches("[required][name='first']")
-      ? validateField(target, ["required", "first"])
-      : target.matches("[required][name='last']")
-      ? validateField(target, ["required", "last"])
-      : target.matches("[required][name='email']")
-      ? validateField(target, ["required", "email"])
-      : target.matches("[required][name='birthdate']")
-      ? validateField(target, ["required", "birthdate"])
-      : target.matches("[required][name='quantity']")
-      ? validateField(target, ["required", "quantity"])
+    target.matches("[name='first']")
+      ? validateField(target, ["first"])
+      : target.matches("[name='last']")
+      ? validateField(target, ["last"])
+      : target.matches("[name='email']")
+      ? validateField(target, ["email"])
+      : target.matches("[name='birthdate']")
+      ? validateField(target, ["birthdate"])
+      : target.matches("[name='quantity']")
+      ? validateField(target, ["quantity"])
       : target.matches("[name='location']")
       ? validateField(target, ["location"])
       : target.matches("[name='agreement1']")
@@ -72,9 +70,9 @@ inputFormListening();
 
 // Display error message for invalid input
 const displayErrorMessage = (field, message) => {
-  console.log(field);
-  const errorMessageSpan = field.closest(".formData").querySelector(".data-error");  
-  console.log(errorMessageSpan);
+  const errorMessageSpan = field
+    .closest(".formData")
+    .querySelector(".data-error");
   const errorTextfield = field.parentNode.querySelector(".text-control");
   errorMessageSpan.textContent = message;
   errorMessageSpan.classList.add("data-error-visible");
@@ -85,7 +83,9 @@ const displayErrorMessage = (field, message) => {
 
 // Remove error message when input is valid
 const removeErrorMessage = (field) => {
-  const errorMessageSpan = field.closest(".formData").querySelector(".data-error"); 
+  const errorMessageSpan = field
+    .closest(".formData")
+    .querySelector(".data-error");
   const errorTextfield = field.parentNode.querySelector(".text-control");
   errorMessageSpan.textContent = "";
   errorMessageSpan.classList.remove("data-error-visible");
@@ -94,9 +94,37 @@ const removeErrorMessage = (field) => {
     : null;
 };
 
+let isValidChecked = false;
+let isValid = false;
+
 // Validate required field
-const validateRequired = (value) => {
-  return value.trim() !== "";
+const validateRequired = (field) => {
+  console.log(field);
+  if (
+    field.type === "text" ||
+    field.type === "email" ||
+    field.type === "number" ||
+    field.type === "date"
+  ) {
+    isValid = field.value.trim() !== "";
+    return isValid;
+  }
+  if (field.type === "checkbox") {
+    isValid = field.checked;
+    return isValid;
+  }
+  if (field.type === "radio") {
+    if (field.checked) {
+      isValidChecked = true;
+      return isValidChecked;
+    }
+    if (!field.checked && isValidChecked === true) {
+      return isValidChecked;
+    }
+    if (!field.checked) {
+      return isValidChecked;
+    }
+  }
 };
 
 // Validate name input
@@ -127,32 +155,12 @@ const validateNumberCompetitions = (value) => {
   return regexNumberCompetitions.test(value);
 };
 
-// Checkbox town of competitions
-const validateTownTournament = () => {
-  const selectRadioTownTournament = document.querySelectorAll(
-    'input[type="radio"][name="location"]'
-  );
-  const isChecked = Array.from(selectRadioTownTournament).some(
-    (town) => town.checked
-  );
-  return isChecked
-    ? (formFields.whatTownChecked = true)
-    : (displayErrorMessage(selectRadioTownTournament[0],"Vous devez sélectionner un tournoi auqel vous souhaitez participer"));
-};
-
-
 // Validate use conditions checkbox
 const validateCheckBoxUse = () => {
   const selectCheckbox = document.querySelector(
     'input[type="checkbox"][name="agreement1"]'
   );
-  const isValid = selectCheckbox.checked
-    ? true
-    : (displayErrorMessage(
-        selectCheckbox,
-        "Vous devez accepter les conditions d'utilisations."
-      ),
-      false);
+  const isValid = selectCheckbox.checked;
   return isValid;
 };
 
@@ -226,17 +234,14 @@ const validateField = (field, rules) => {
 // Validate all required fields
 const requiredValidate = () => {
   let isValid = true;
-  const selectFieldsValidation = document.querySelectorAll("input[required]");
+  const selectFieldsValidation = document.querySelectorAll("[required]");
   selectFieldsValidation.forEach((inputField) => {
-    const value = inputField.value.trim();
-    !validateRequired(value)
+    console.log(!validateRequired(inputField));
+    !validateRequired(inputField)
       ? (displayErrorMessage(inputField, "Ce champ est requis"),
         (isValid = false))
-      : null;
+      : removeErrorMessage(inputField);
   });
-  validateTownTournament();
-  validateCheckBoxUse();
-
   return isValid;
 };
 
@@ -246,7 +251,7 @@ const submitForm = () => {
   if (areAllValid === true) {
     form.submit();
   }
-}
+};
 
 // Event listener on form submission
 form.addEventListener("submit", (event) => {
