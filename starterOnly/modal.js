@@ -27,6 +27,12 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
+// close modal form
+function closeModal() {
+  modalbg.style.display = "none";
+
+}
+
 // declaration of variables to validate each entry
 let formFields = {
   isFirstValid: false,
@@ -240,13 +246,7 @@ const submitForm = () => {
   if (areAllValid === true) {
     form.submit();
   }
-
-// close modal form
-function closeModal() {
-  modalbg.style.display = "none";
-
 }
-};
 
 // Event listener on form submission
 form.addEventListener("submit", (event) => {
