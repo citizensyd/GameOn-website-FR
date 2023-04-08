@@ -48,7 +48,6 @@ const form = document.querySelector("form");
 const inputFormListening = () => {
   form.addEventListener("input", (event) => {
     const target = event.target;
-    console.log(target);
     target.matches("[name='first']")
       ? validateField(target, ["first"])
       : target.matches("[name='last']")
@@ -99,7 +98,6 @@ let isValid = false;
 
 // Validate required field
 const validateRequired = (field) => {
-  console.log(field);
   if (
     field.type === "text" ||
     field.type === "email" ||
@@ -236,7 +234,6 @@ const requiredValidate = () => {
   let isValid = true;
   const selectFieldsValidation = document.querySelectorAll("[required]");
   selectFieldsValidation.forEach((inputField) => {
-    console.log(!validateRequired(inputField));
     !validateRequired(inputField)
       ? (displayErrorMessage(inputField, "Ce champ est requis"),
         (isValid = false))
@@ -245,19 +242,26 @@ const requiredValidate = () => {
   return isValid;
 };
 
-// Sending the form
-const submitForm = () => {
-  const form = document.forms["reserve"];
-  if (areAllValid === true) {
-    form.submit();
+const submitForm = (event) => {
+  event.preventDefault();
+  if (requiredValidate() && areAllValid()) {
+    form.style.opacity = "0";
+    const confirmation = document.createElement("p");
+    confirmation.textContent = "Merci pour\nvotre inscription";
+    confirmation.classList.add("text-confirmation");
+    modalBody.appendChild(confirmation);
+    const closeButton = document.createElement("button");
+    closeButton.textContent = "Fermer";
+    closeButton.classList.add("btn-close");
+    modalBody.appendChild(closeButton);
+    closeButton.addEventListener("click", closeModal);
   }
 };
 
-// Event listener on form submission
-form.addEventListener("submit", (event) => {
-  let areAllValid = Object.values(formFields).every((value) => value === true);
-  event.preventDefault();
-  if (requiredValidate() && areAllValid === true) {
-    submitForm();
-  }
-});
+const areAllValid = () => {
+  const formFields = document.querySelectorAll("input, select, textarea");
+  return Array.from(formFields).every((field) => field.checkValidity());
+};
+
+const formSubmit = document.querySelector('form[name="reserve"]');
+formSubmit.addEventListener("submit");
