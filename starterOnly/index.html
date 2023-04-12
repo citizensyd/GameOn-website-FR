@@ -51,14 +51,13 @@
 
       <div class="bground">
         <div class="content">
-          <span class="close"></span>
+          <span class="close closeElement"></span>
           <div class="modal-body">
             <form
               novalidate
               name="reserve"
               action="index.html"
               method="get"
-              onsubmit="submitForm(event)"
             >
               <div class="formData">
                 <label for="first">Prénom</label><br />
@@ -244,5 +243,10 @@
       <p class="copyrights">Copyright 2014 - 2022, GameOn Inc.</p>
     </footer>
     <script src="modal.js"></script>
+    <script type="module" src="form-listener.js"></script>
+    <script type="module" src="form-submit.js"></script>
+    
+
+    
   </body>
 </html>
