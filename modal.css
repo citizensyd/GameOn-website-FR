@@ -47,7 +47,7 @@ img {
 .main-navbar {
   display: flex;
   position: absolute;
-  right: -55px;
+  right: -50px;
   transform: scaleY(0.95);
 }
 
