@@ -47,7 +47,7 @@ img {
 .main-navbar {
   display: flex;
   position: absolute;
-  right: -70px;
+  right: -55px;
   transform: scaleY(0.95);
 }
 
@@ -580,6 +580,7 @@ footer {
   padding-right: 2vw;
   /*   margin: 0 20px; */
 }
+
 @media screen and (max-width: 768px) {
   main{
     margin: 0 auto;
