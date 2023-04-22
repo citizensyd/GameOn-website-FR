@@ -8,23 +8,26 @@ const editNav = () => {
   }
 };
 
-// DOM Elements
-const modalbg = document.querySelector(".bground");
-const modalBtn = document.querySelectorAll(".modal-btn");
-const modalClose = document.querySelectorAll(".close");
+// Function to show  and close modal window
+const setupModal = () => {
+  const modal = document.querySelector(".bground");
+  const btnClose = document.querySelector(".btn-close");
 
-// Function to show modal window
-const launchModal = () => {
-  modalbg.style.display = "block";
+  const showModal = () => {
+    modal.style.display = "block";
+  };
+
+  const hideModal = () => {
+    modal.style.display = "none";
+  };
+
+  document.querySelector(".modal-btn").addEventListener("click", showModal);
+
+  document.querySelector(".close").addEventListener("click", hideModal);
+
+  if (btnClose) {
+    btnClose.addEventListener("click", hideModal);
+  }
 };
 
-// close modal form
-const closeModal = () => {
-  modalbg.style.display = "none";
-};
-// Event listener to launch modal form
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-
-// close modal event
-modalClose.forEach((close) => close.addEventListener("click", closeModal));
-
+setupModal();

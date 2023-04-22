@@ -16,7 +16,7 @@ const submitForm = (event) => {
     closeButton.textContent = "Fermer";
     closeButton.classList.add("btn-close");
     modalBody.appendChild(closeButton);
-    closeButton.addEventListener("click", closeModal);
+    setupModal();
     const formSubmit = document.querySelector('form[name="reserve"]');
   }
 };

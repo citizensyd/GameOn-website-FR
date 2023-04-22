@@ -8,7 +8,6 @@ const addEventListenerByType = (selector, eventType, rules) => {
   const fields = form.querySelectorAll(selector);
   fields.forEach((field) => {
     field.addEventListener(eventType, () => {
-        console.log(field);
       validateField(field, [...rules, field.name]);
     });
   });

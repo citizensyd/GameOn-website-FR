@@ -25,7 +25,7 @@ const validateRequired = (field) => {
 
 // Validate name input
 const validateName = (field) => {
-  const nameRegex = /^.+\S{2,}$/;
+  const nameRegex = /^.+\S{1,}$/;
   return nameRegex.test(field.value);
 };
 
@@ -137,7 +137,6 @@ const validationRules = {
 // Validate each field according to its rules
 const validateField = (field, rules) => {
   let isValid = true;
-  console.log(field);
   for (let i = 0; i < rules.length; i++) {
     const rule = rules[i];
     const { validator, errorMessage, formFieldKey } = validationRules[rule];
