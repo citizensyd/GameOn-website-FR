@@ -398,7 +398,7 @@ input[data-error]::after {
   transform: rotate(-45deg);
 }
 .btn-submit,
-.btn-signup {
+.btn-signup1 {
   background: #fe142f;
   display: flex;
   justify-content: center;
@@ -546,7 +546,7 @@ input[data-error]::after {
   /*   margin-top: 67px; */
   padding: 0;
 }
-.btn-signup {
+.btn-signup1 {
   outline: none;
   text-transform: capitalize;
   font-size: 2vw;
@@ -572,7 +572,7 @@ input[data-error]::after {
   margin: 60px 0 30px;
   font-weight: bolder;
 }
-.hero-section > .btn-signup {
+.hero-section > .btn-signup2 {
   display: none;
 }
 footer {
@@ -612,7 +612,7 @@ footer {
   .hero-content::after {
     content: unset;
   }
-  .hero-content .btn-signup {
+  .hero-content .btn-signup1 {
     display: none;
   }
   .hero-headline {
@@ -629,7 +629,10 @@ footer {
     border-radius: 10px;
     margin-top: 40px;
   }
-  .hero-section > .btn-signup {
+  .hero-section > .btn-signup2 {
+    border: none;
+    outline: none;
+    text-transform: capitalize;
     display: block;
     font-size: 3.5vw;
     margin: 42px auto 10px;

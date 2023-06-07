@@ -1,26 +1,28 @@
 import { removeErrorMessage, displayErrorMessage } from "./form-message.js";
 
-// Validation of required fields
-const validateRequired = (field) => {
-  if (field instanceof NodeList) {
-    field = field[0];
+// Validate each field according to its rules
+const validateField = (field, rules) => {
+  let isValid = true;
+  for (let i = 0; i < rules.length; i++) {
+    const rule = rules[i];
+    const { validator, errorMessage, formFieldKey } = validationRules[rule];
+    if (!validator(field)) {
+      if (errorMessage) {
+        displayErrorMessage(field, errorMessage);
+      }
+      if (formFieldKey) {
+        formFields[formFieldKey] = false;
+      }
+      isValid = false;
+      break; // Stop validating rules if current one fails
+    } else {
+      removeErrorMessage(field);
+      if (formFieldKey) {
+        formFields[formFieldKey] = true;
+      }
+    }
   }
-  switch (field.type) {
-    case "text":
-    case "email":
-    case "number":
-    case "date":
-      return field.value.trim() !== "";
-    case "checkbox":
-      return field.checked;
-    case "radio":
-      const selectFieldsValidation = document.querySelectorAll(
-        "input[type='radio'][required]"
-      );
-      return validateLocation(selectFieldsValidation);
-    default:
-      return false;
-  }
+  return isValid;
 };
 
 // Validate name input
@@ -86,6 +88,29 @@ let formFields = {
   useConditions: false,
 };
 
+// Validation of required fields
+const validateRequired = (field) => {
+  if (field instanceof NodeList) {
+    field = field[0];
+  }
+  switch (field.type) {
+    case "text":
+    case "email":
+    case "number":
+    case "date":
+      return field.value.trim() !== "";
+    case "checkbox":
+      return field.checked;
+    case "radio":
+      const selectFieldsValidation = document.querySelectorAll(
+        "input[type='radio'][required]"
+      );
+      return validateLocation(selectFieldsValidation);
+    default:
+      return false;
+  }
+};
+
 // Objects for rules and error messages
 class ValidationRule {
   constructor(validator, errorMessage, formFieldKey) {
@@ -134,30 +159,8 @@ const validationRules = {
   ),
 };
 
-// Validate each field according to its rules
-const validateField = (field, rules) => {
-  let isValid = true;
-  for (let i = 0; i < rules.length; i++) {
-    const rule = rules[i];
-    const { validator, errorMessage, formFieldKey } = validationRules[rule];
-    if (!validator(field)) {
-      if (errorMessage) {
-        displayErrorMessage(field, errorMessage);
-      }
-      if (formFieldKey) {
-        formFields[formFieldKey] = false;
-      }
-      isValid = false;
-      break; // Stop validating rules if current one fails
-    } else {
-      removeErrorMessage(field);
-      if (formFieldKey) {
-        formFields[formFieldKey] = true;
-      }
-    }
-  }
-  return isValid;
-};
+
+
 
 // Validation of all fields before sending
 const validateFields = () => {

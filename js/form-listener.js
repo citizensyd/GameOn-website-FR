@@ -21,5 +21,3 @@ addEventListenerByType("[type='number'][required]", "input", ["required"]);
 addEventListenerByType("[type='radio'][required]", "click", []);
 addEventListenerByType("[type='checkbox'][required]", "click", []);
 addEventListenerByType("[type='date'][required]", "input", ["required"]);
-
-export { addEventListenerByType };

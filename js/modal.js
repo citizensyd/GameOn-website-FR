@@ -21,7 +21,8 @@ const setupModal = () => {
     modal.style.display = "none";
   };
 
-  document.querySelector(".modal-btn").addEventListener("click", showModal);
+  document.querySelector(".btn-signup1").addEventListener("click", showModal);
+  document.querySelector(".btn-signup2").addEventListener("click", showModal);
 
   document.querySelector(".close").addEventListener("click", hideModal);
 
